@@ -1,28 +1,43 @@
 import axios from "axios";
+import type { FormData, Note } from "../types/note";
 
-export type Note = {
-  id: string;
-  title: string;
-  content: string;
-  categoryId: string;
-  userId: string;
-  createdAt: string;
-  updatedAt: string;
-};
-
-export type NoteListResponse = {
+interface ResponseAPI {
   notes: Note[];
-  total: number;
-};
+  totalPages: number;
+}
 
-axios.defaults.baseURL = "https://next-docs-api.onrender.com";
+interface OptionsAPI {
+  params: {
+    search: string;
+    page: number;
+    perPage: number;
+  };
+}
 
-export const getNotes = async () => {
-  const res = await axios.get<NoteListResponse>("/notes");
+axios.defaults.baseURL = "https://notehub-public.goit.study/api";
+axios.defaults.headers.common["Authorization"] = `Bearer ${
+  process.env.NEXT_PUBLIC_NOTEHUB_TOKEN
+}`;
+
+export async function fetchNotes(searchWord: string, page: number) {
+  const options: OptionsAPI = {
+    params: {
+      search: searchWord,
+      page: page,
+      perPage: 12,
+    },
+  };
+
+  const res = await axios.get<ResponseAPI>("/notes", options);
   return res.data;
-};
+}
 
-export const getSingleNote = async (id: string) => {
-  const res = await axios.get<Note>(`/notes/${id}`);
+export async function createNote(data: FormData) {
+  const res = await axios.post<Note>("/notes", data);
   return res.data;
-};
+}
+
+export async function deleteNote(id: string) {
+  const res = await axios.delete<Note>(`/notes/${id}`);
+  return res.data;
+}
