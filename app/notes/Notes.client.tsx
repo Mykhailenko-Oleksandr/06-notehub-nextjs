@@ -18,7 +18,7 @@ export default function NotesClient() {
   const [page, setPage] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const { data, isLoading, isError, isSuccess } = useQuery({
+  const { data, isError, isSuccess } = useQuery({
     queryKey: ["notes", topic, page],
     queryFn: () => fetchNotes(topic, page),
     placeholderData: keepPreviousData,
@@ -65,10 +65,9 @@ export default function NotesClient() {
         <NoteList notes={data?.notes} />
       )}
       {isModalOpen && (
-        <Modal
-          onClose={closeModal}
-          children={<NoteForm onClose={closeModal} />}
-        />
+        <Modal onClose={closeModal}>
+          <NoteForm onClose={closeModal} />
+        </Modal>
       )}
       <Toaster />
     </div>

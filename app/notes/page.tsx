@@ -6,8 +6,8 @@ import {
 } from "@tanstack/react-query";
 import NotesClient from "./Notes.client";
 
-let topic = "";
-let page = 1;
+const topic = "";
+const page = 1;
 
 export default async function Notes() {
   const queryClient = new QueryClient();
