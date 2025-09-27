@@ -1,25 +1,10 @@
-// import { Note } from "@/lib/api";
-// import NoteItem from "../NoteItem/NoteItem";
-
-// type Props = {
-//   notes: Note[];
-// };
-
-// export default function NoteList({ notes }: Props) {
-//   return (
-//     <ul>
-//       {notes.map((note) => (
-//         <NoteItem key={note.id} item={note} />
-//       ))}
-//     </ul>
-//   );
-// }
+"use client";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import type { Note } from "../../types/note";
 import css from "./NoteList.module.css";
-import { deleteNote } from "../../services/noteService";
 import toast from "react-hot-toast";
+import { deleteNote } from "@/lib/api";
+import { Note } from "@/types/note";
 
 interface NoteListProps {
   notes: Note[];
@@ -51,6 +36,7 @@ export default function NoteList({ notes }: NoteListProps) {
             <p className={css.content}>{note.content}</p>
             <div className={css.footer}>
               <span className={css.tag}>{note.tag}</span>
+              <a href={`/notes/${note.id}`}>View details</a>
               <button
                 onClick={() => handleDeleteNote(note.id)}
                 className={css.button}

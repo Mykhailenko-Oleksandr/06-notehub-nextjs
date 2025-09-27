@@ -1,3 +1,5 @@
+"use client";
+
 import { createPortal } from "react-dom";
 import css from "./Modal.module.css";
 import { useEffect, type MouseEvent, type ReactNode } from "react";
