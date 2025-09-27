@@ -1,5 +1,5 @@
 import axios from "axios";
-import type { FormData, Note } from "../types/note";
+import type { Note, NoteFormData } from "../types/note";
 
 interface ResponseAPI {
   notes: Note[];
@@ -37,7 +37,7 @@ export async function fetchNoteById(id: string) {
   return res.data;
 }
 
-export async function createNote(data: FormData) {
+export async function createNote(data: NoteFormData) {
   const res = await axios.post<Note>("/notes", data);
   return res.data;
 }

@@ -6,13 +6,13 @@ import * as Yup from "yup";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { createNote } from "@/lib/api";
-import { FormData } from "@/types/note";
+import { NoteFormData } from "@/types/note";
 
 interface NoteFormProps {
   onClose: () => void;
 }
 
-const defaultValues: FormData = {
+const defaultValues: NoteFormData = {
   title: "",
   content: "",
   tag: "Todo",
@@ -33,7 +33,7 @@ export default function NoteForm({ onClose }: NoteFormProps) {
   const queryClient = useQueryClient();
 
   const createNoteMutate = useMutation({
-    mutationFn: (data: FormData) => createNote(data),
+    mutationFn: (data: NoteFormData) => createNote(data),
     onSuccess() {
       queryClient.invalidateQueries({ queryKey: ["notes"] });
       onClose();
@@ -44,8 +44,8 @@ export default function NoteForm({ onClose }: NoteFormProps) {
   });
 
   function handleSubmit(
-    values: FormData,
-    formikHelpers: FormikHelpers<FormData>
+    values: NoteFormData,
+    formikHelpers: FormikHelpers<NoteFormData>
   ) {
     createNoteMutate.mutate(values, {
       onSuccess: () => formikHelpers.resetForm(),
